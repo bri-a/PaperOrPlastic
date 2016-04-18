@@ -43,20 +43,18 @@ import java.util.Map;
 import java.util.Scanner;
 
 import edu.pacificu.cs493f15_1.paperorplasticapp.R;
-import edu.pacificu.cs493f15_1.paperorplasticapp.fbdialog.EditListNameDialog;
 import edu.pacificu.cs493f15_1.paperorplasticapp.fbdialog.ShareListDialog;
 import edu.pacificu.cs493f15_1.paperorplasticjava.ExecuteUPCScanTask;
 import edu.pacificu.cs493f15_1.paperorplasticjava.ListItem;
-import edu.pacificu.cs493f15_1.paperorplasticjava.NutritionFactModel;
 import edu.pacificu.cs493f15_1.paperorplasticjava.PoPList;
 import edu.pacificu.cs493f15_1.paperorplasticjava.PoPLists;
 
 import edu.pacificu.cs493f15_1.paperorplasticapp.BaseActivity;
 import edu.pacificu.cs493f15_1.paperorplasticjava.SimpleList;
 import edu.pacificu.cs493f15_1.paperorplasticjava.SimpleListItem;
-import edu.pacificu.cs493f15_1.paperorplasticjava.User;
 import edu.pacificu.cs493f15_1.utils.Constants;
 import edu.pacificu.cs493f15_1.utils.Utils;
+import edu.pacificu.cs493f15_1.paperorplasticjava.User;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -185,8 +183,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     mbAddItem = (FloatingActionButton) findViewById(R.id.bAddList);
     mItemListView = (ListView) findViewById(R.id.listViewOfItems);
     mGroupBySpinner = (Spinner) findViewById(R.id.GroupBySpinner);
-    formatText = (TextView) findViewById (R.id.scan_format);
-    contentText = (TextView) findViewById (R.id.scan_content);
+
     setupToolbar();
   }
 
@@ -433,12 +430,34 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
    *   Parameters:   N/A
    *   Returned:     N/A
    ************************************************************************************************/
+  //Return from ItemSearchActivity
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == REQUEST_OK) {
       if (resultCode == RESULT_OK) {
         String item_name = data.getStringExtra("item_name");
+        String brand_name = data.getStringExtra("brand_name");
+        String desc = data.getStringExtra("item_desc");
 
+        newItem = new ListItem(item_name, brand_name, desc);
+
+        newItem.setNutritionFacts(data.getIntExtra("nf_calories", 0),
+                data.getDoubleExtra("nf_total_fat", 0),
+                data.getDoubleExtra("nf_saturated_fat", 0),
+                data.getDoubleExtra("nf_polyunsaturated_fat", 0),
+                data.getDoubleExtra("nf_monounsaturated_fat", 0),
+                data.getDoubleExtra("nf_trans_fatty_acid", 0),
+                data.getDoubleExtra("nf_cholesterol", 0),
+                data.getDoubleExtra("nf_sodium", 0),
+                data.getDoubleExtra("nf_total_carbohydrate", 0),
+                data.getDoubleExtra("nf_dietary_fiber", 0),
+                data.getDoubleExtra("nf_sugars", 0),
+                data.getDoubleExtra("nf_protein", 0),
+                data.getDoubleExtra("nf_potassium", 0),
+                data.getIntExtra("nf_vitamin_a_dv", 0),
+                data.getIntExtra("nf_vitamin_c_dv", 0),
+                data.getIntExtra("nf_calcium_dv", 0),
+                data.getIntExtra("nf_iron_dv", 0));
 
         if (bScannedItem)
         {
@@ -455,7 +474,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
           else
           {
             Toast toast = Toast.makeText (getApplicationContext (), "No scan data received!",
-                Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT);
             toast.show();
           }
         }
@@ -467,11 +486,6 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
         }
         else
         {
-          newItem = new ListItem(item_name);
-
-          newItem.setAll(0, 0, 1, 0.00, 0, false, "init", new NutritionFactModel());
-          newItem.setNutritionFacts(0, 0, 0, 0, 0, 0); //Initializing for outputing to a file;
-          //OutputFileToLogcat("onActivityResult Part 1");
           mPoPLists.clearLists();
           readListsFromFile(mPoPLists);
           addItemToListView(newItem);
@@ -483,6 +497,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
       }
     }
   }
+
 
   /*************************************************************************************************
    *   Method:
@@ -1262,8 +1277,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     };
 
     fm = getFragmentManager();
-    EditListNameDialog list = new EditListNameDialog();
-    list.show(fm, "fs");
+    /*EditListNameDialog list = new EditListNameDialog();
+    list.show(fm, "fs");*/
   }
 
   /*************************************************************************************************
