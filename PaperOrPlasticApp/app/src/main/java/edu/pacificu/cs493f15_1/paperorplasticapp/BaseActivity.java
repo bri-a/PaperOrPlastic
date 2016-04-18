@@ -223,6 +223,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
     {
       //unauthorize the firebase user
       mFirebaseRef.unauth();
+      bUsingOffline = true;
 
       if (mProvider.equals(Constants.GOOGLE_PROVIDER))
       {

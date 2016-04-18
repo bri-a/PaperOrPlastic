@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ public class ItemSearchActivity extends Activity implements ExecuteQueryTask.Asy
     };
 
     public ExecuteQueryTask queryTask = new ExecuteQueryTask(response);
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

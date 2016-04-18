@@ -96,6 +96,7 @@ public class ExecuteQueryTask extends AsyncTask<String, Void, JSONArray>
 
 			// Status Code Returns here.
 			int HttpResult = urlConnection.getResponseCode ();
+			System.out.println("" + HttpResult);
 
 			if (HttpResult == HttpURLConnection.HTTP_OK)
 			{

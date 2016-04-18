@@ -14,26 +14,26 @@
     * limitations under the License.
     */
 
-    package com.google.zxing.integration.android;
+package com.google.zxing.integration.android;
 
-    import java.util.Arrays;
-    import java.util.Collection;
-    import java.util.Collections;
-    import java.util.HashMap;
-    import java.util.List;
-    import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    import android.app.Activity;
-    import android.app.AlertDialog;
-    import android.app.Fragment;
-    import android.content.ActivityNotFoundException;
-    import android.content.DialogInterface;
-    import android.content.Intent;
-    import android.content.pm.PackageManager;
-    import android.content.pm.ResolveInfo;
-    import android.net.Uri;
-    import android.os.Bundle;
-    import android.util.Log;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 
 /**
  * <p>A utility class which helps ease integration with Barcode Scanner via {@link Intent}s. This is a simple

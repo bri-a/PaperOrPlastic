@@ -45,6 +45,7 @@ import java.util.Scanner;
 import edu.pacificu.cs493f15_1.paperorplasticapp.R;
 import edu.pacificu.cs493f15_1.paperorplasticapp.fbdialog.EditListNameDialog;
 import edu.pacificu.cs493f15_1.paperorplasticapp.fbdialog.ShareListDialog;
+import edu.pacificu.cs493f15_1.paperorplasticjava.ExecuteUPCScanTask;
 import edu.pacificu.cs493f15_1.paperorplasticjava.ListItem;
 import edu.pacificu.cs493f15_1.paperorplasticjava.NutritionFactModel;
 import edu.pacificu.cs493f15_1.paperorplasticjava.PoPList;
@@ -1217,10 +1218,17 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
    ************************************************************************************************/
   private void onBarcodeScanClick()
   {
-    bScannedItem = true;
+    /*bScannedItem = true;
     IntentIntegrator scanIntegrator = new IntentIntegrator (this);
 
-    scanIntegrator.initiateScan();
+    scanIntegrator.initiateScan();*/
+
+    // KJO testing barcode
+    ExecuteUPCScanTask upcScanTask = new ExecuteUPCScanTask();
+
+    upcScanTask.execute("49000036756");
+
+
   }
 
   /*************************************************************************************************
