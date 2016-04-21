@@ -118,7 +118,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     super.onCreate(savedInstanceState);
   }
 
-  protected void PoPOnCreate (Bundle savedInstanceState, PoPLists popLists, final int activitylayout, final String fileName, final boolean isGrocery)
+  protected void PoPOnCreate (Bundle savedInstanceState, PoPLists popLists, final int activitylayout,
+                              final String fileName, final boolean isGrocery)
   {
     setContentView(R.layout.activity_list_items);
     mbIsGrocery = isGrocery;
@@ -156,28 +157,17 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
       {
         setupFirebase();
         setupFirebaseListItems();
+
+        mPoPListName = getIntent().getStringExtra("PoPListName");
+        Log.d("PoPListItemsActivity", "PopList passed through: " + mPoPListName);
+
+        readListsFromFile(popLists);
+        mPoPList = popLists.getListByName(mPoPListName);
       }
     }
 
-
-
-       /*if (1 == mPoPList.describeContents())
-       {
-           mPoPFileName = GroceryLists.GROCERY_FILE_NAME;
-       }
-        else
-       {
-           mPoPFileName = KitchenInventories.KITCHEN_FILE_NAME;
-       }*/
-
     //set up add item button
-
-
     setupEditDeleteButtonsForGLists();
-
-
-
-    //setupBackButton (isGrocery);
 
     //setup the sorting group by spinner (drop down list sorting)
     setUpGroupSpinnerHandleSorting();
@@ -306,7 +296,13 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
       @Override
       public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
       {
-        //TODO: what do we want to do on a long click
+        //can view nutritional infos TODO
+        final SimpleListItem selectedListItem = mSimpleListItemAdapter.getItem(position);
+        String itemId = mSimpleListItemAdapter.getRef(position).getKey();
+
+        int itemIndex = mPoPList.getItemIndex(selectedListItem.getmItemName());
+        mPoPList.getItem(itemIndex);
+
         return false;
       }
     });
@@ -336,7 +332,12 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
 
   }
 
-
+  /*************************************************************************************************
+   *   Method:
+   *   Description:
+   *   Parameters:   N/A
+   *   Returned:     N/A
+   ************************************************************************************************/
   public void buyItemOnClick(final SimpleListItem selectedListItem, String itemId)
   {
     if (selectedListItem != null)
@@ -497,6 +498,13 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
         if (!bUsingOffline)
         {
           addItemToFB(item_name);
+
+          //testing!!!
+          mPoPLists.clearLists();
+          readListsFromFile(mPoPLists);
+          mPoPList.addItem(newItem);
+          writeListsToFile();
+          //end testing area!
         }
         else
         {
@@ -505,6 +513,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
           addItemToListView(newItem);
           writeListsToFile();
         }
+
 
 
         mbAddingItem = true;
@@ -692,36 +701,6 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
   {
   }
 
-
-   /* private void setupBackButton (final boolean isGrocery) {
-        mbBack = (Button) findViewById(R.id.bBack);
-        mbBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //go back to activity that called this page (possible pages are settings
-                // or grocery list page
-                String caller = getIntent().getStringExtra("Caller");
-                Intent intent;
-                if (caller.equals("SettingsActivity"))
-                {
-                    intent = new Intent(PoPListSettingsActivity.this, SettingsActivity.class); //TODO Come back to this maybe if statements?
-                }
-                else
-                {
-                    if (isGrocery) //whether the caller was groceryList
-                    {
-                        intent = new Intent(PoPListSettingsActivity.this, GroceryListActivity.class);
-                    }
-                    else
-                    {
-                        intent = new Intent(PoPListSettingsActivity.this, KitchenInventoryActivity.class);
-                    }
-                }
-                startActivity(intent);
-            }
-        });
-    }*/
-
   /*************************************************************************************************
    *   Method:
    *   Description:
@@ -731,28 +710,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
   private void setupEditDeleteButtonsForGLists ()
   {
     mbEdit = (ToggleButton) findViewById (R.id.bEdit);
-        /*mbEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if its clicked, show or hide delete buttons
-                int size = mPoPLists.getSize();
-                if (size > 0) {
-                    if (!mbIsOnEdit) {
-                        mbIsOnEdit = true;
-                        for (int i = 0; i < size; i++) {
-                            showDeleteButton(i);
-                        }
-                    } else {
-                        //showDeleteButton also gets rid of the delete button so we might not need this check
-                        //TODO might need to show again if tab is changed
-                        mbIsOnEdit = false;
-                        for (int i = 0; i < size; i++) {
-                            hideDeleteButton(i);
-                        }
-                    }
-                }
-            }
-        });*/
+
   }
 
   /***********************************************************************************************
@@ -1178,6 +1136,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     {
       menu.removeItem(R.id.action_remove_list);
       menu.removeItem(R.id.action_share_list);
+      menu.removeItem(R.id.action_edit_list_name);
     }
 
 
@@ -1247,15 +1206,15 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
    ************************************************************************************************/
   private void onBarcodeScanClick()
   {
-    /*bScannedItem = true;
+    bScannedItem = true;
     IntentIntegrator scanIntegrator = new IntentIntegrator (this);
 
-    scanIntegrator.initiateScan();*/
+    scanIntegrator.initiateScan();
 
     // KJO testing barcode
-    ExecuteUPCScanTask upcScanTask = new ExecuteUPCScanTask();
-
-    upcScanTask.execute("49000036756");
+//    ExecuteUPCScanTask upcScanTask = new ExecuteUPCScanTask();
+//
+//    upcScanTask.execute("49000036756");
 
 
   }

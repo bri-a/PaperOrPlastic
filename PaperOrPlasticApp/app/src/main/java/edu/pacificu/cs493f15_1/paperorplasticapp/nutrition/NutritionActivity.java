@@ -81,27 +81,50 @@ public class NutritionActivity extends BaseActivity {
 
         Intent nutrIntent = getIntent();
 
-        mNutrition.setAll(nutrIntent.getIntExtra("nf_calories", 0),
-                nutrIntent.getDoubleExtra("nf_total_fat", 0.0),
-                nutrIntent.getDoubleExtra("nf_saturated_fat", 0.0),
-                nutrIntent.getDoubleExtra("nf_polyunsaturated_fat", 0.0),
-                nutrIntent.getDoubleExtra("nf_monounsaturated_fat", 0.0),
-                nutrIntent.getDoubleExtra("nf_trans_fatty_acid", 0.0),
-                nutrIntent.getDoubleExtra("nf_cholesterol", 0.0),
-                nutrIntent.getDoubleExtra("nf_sodium", 0.0),
-                nutrIntent.getDoubleExtra("nf_total_carbohydrate", 0.0),
-                nutrIntent.getDoubleExtra("nf_dietary_fiber", 0.0),
-                nutrIntent.getDoubleExtra("nf_sugars", 0.0),
-                nutrIntent.getDoubleExtra("nf_protein", 0.0),
-                nutrIntent.getDoubleExtra("nf_potassium", 0.0),
-                nutrIntent.getIntExtra("nf_vitamin_a_dv", 0),
-                nutrIntent.getIntExtra("nf_vitamin_c_dv", 0),
-                nutrIntent.getIntExtra("nf_calcium_dv", 0),
-                nutrIntent.getIntExtra("nf_iron_dv", 0)
-        );
+//        mNutrition.setAll(nutrIntent.getIntExtra("nf_calories", 0),
+//                nutrIntent.getDoubleExtra("nf_total_fat", 0.0),
+//                nutrIntent.getDoubleExtra("nf_saturated_fat", 0.0),
+//                nutrIntent.getDoubleExtra("nf_polyunsaturated_fat", 0.0),
+//                nutrIntent.getDoubleExtra("nf_monounsaturated_fat", 0.0),
+//                nutrIntent.getDoubleExtra("nf_trans_fatty_acid", 0.0),
+//                nutrIntent.getDoubleExtra("nf_cholesterol", 0.0),
+//                nutrIntent.getDoubleExtra("nf_sodium", 0.0),
+//                nutrIntent.getDoubleExtra("nf_total_carbohydrate", 0.0),
+//                nutrIntent.getDoubleExtra("nf_dietary_fiber", 0.0),
+//                nutrIntent.getDoubleExtra("nf_sugars", 0.0),
+//                nutrIntent.getDoubleExtra("nf_protein", 0.0),
+//                nutrIntent.getDoubleExtra("nf_potassium", 0.0),
+//                nutrIntent.getIntExtra("nf_vitamin_a_dv", 0),
+//                nutrIntent.getIntExtra("nf_vitamin_c_dv", 0),
+//                nutrIntent.getIntExtra("nf_calcium_dv", 0),
+//                nutrIntent.getIntExtra("nf_iron_dv", 0)
+//        );
 
-        mBrandName.setText(String.format("%1$s", nutrIntent.getStringExtra("brand_name")));
-        mItemName.setText(String.format("%1$s", nutrIntent.getStringExtra("item_name")));
+      mNutrition.setAll(nutrIntent.getIntExtra("nf_calories", 1000),
+          nutrIntent.getDoubleExtra("nf_total_fat", 9.3),
+          nutrIntent.getDoubleExtra("nf_saturated_fat", 2.3),
+          nutrIntent.getDoubleExtra("nf_polyunsaturated_fat", 0.8),
+          nutrIntent.getDoubleExtra("nf_monounsaturated_fat", 0.9),
+          nutrIntent.getDoubleExtra("nf_trans_fatty_acid", 0.2),
+          nutrIntent.getDoubleExtra("nf_cholesterol", 2.0),
+          nutrIntent.getDoubleExtra("nf_sodium", 0.7),
+          nutrIntent.getDoubleExtra("nf_total_carbohydrate", 2.9),
+          nutrIntent.getDoubleExtra("nf_dietary_fiber", 0.3),
+          nutrIntent.getDoubleExtra("nf_sugars", 3.0),
+          nutrIntent.getDoubleExtra("nf_protein", 0.2),
+          nutrIntent.getDoubleExtra("nf_potassium", 0.7),
+          nutrIntent.getIntExtra("nf_vitamin_a_dv", 2),
+          nutrIntent.getIntExtra("nf_vitamin_c_dv", 3),
+          nutrIntent.getIntExtra("nf_calcium_dv", 5),
+          nutrIntent.getIntExtra("nf_iron_dv", 1)
+      );
+
+
+      mBrandName.setText("Jamnit Jam");
+      mItemName.setText("Blackberry Jam");
+
+//        mBrandName.setText(String.format("%1$s", nutrIntent.getStringExtra("brand_name")));
+//        mItemName.setText(String.format("%1$s", nutrIntent.getStringExtra("item_name")));
 
         mCalories.setText(String.format("%1$s", mNutrition.getCalories()));
         mTotalFats.setText(String.format("%1$s" + "g", mNutrition.getTotalFat()));

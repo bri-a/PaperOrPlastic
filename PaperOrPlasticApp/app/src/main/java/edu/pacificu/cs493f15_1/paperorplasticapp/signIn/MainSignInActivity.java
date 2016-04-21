@@ -192,7 +192,7 @@ public class MainSignInActivity extends BaseActivity
 
     mLoginFormView = findViewById(R.id.loginForm);
     LinearLayout linearLayout = (LinearLayout) mLoginFormView;
-    linearLayout.setBackgroundResource(R.drawable.grocerybackportrait);
+    initializeBackground(linearLayout);
 
     mAuthProgressDialog = new ProgressDialog(this);
     mAuthProgressDialog.setTitle("Loading...");

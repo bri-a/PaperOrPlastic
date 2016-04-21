@@ -11,6 +11,11 @@
     android:paddingLeft="16dp"
     android:paddingStart="16dp">
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbBought"/>
+
     <TextView
         android:id="@+id/text_view_active_list_item_name"
         style="@style/ListItemText"

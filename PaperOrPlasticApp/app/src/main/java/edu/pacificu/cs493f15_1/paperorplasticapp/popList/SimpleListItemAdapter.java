@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -65,6 +66,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
   @Override
   protected void populateView(View view, final SimpleListItem item, int position)
   {
+    CheckBox boughtItem = (CheckBox) view.findViewById(R.id.cbBought);
     TextView textViewItemName = (TextView) view.findViewById(R.id.text_view_active_list_item_name);
     final TextView textViewBoughtByUser = (TextView) view.findViewById(R.id.text_view_bought_by_user);
     TextView textViewBoughtBy = (TextView) view.findViewById(R.id.text_view_bought_by);
@@ -74,7 +76,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
 
     textViewItemName.setText(item.getmItemName());
 
-    setViewOnItemBought(owner, textViewBoughtByUser, textViewBoughtBy, deleteButton,
+    setViewOnItemBought(owner, textViewBoughtByUser, boughtItem, textViewBoughtBy, deleteButton,
         textViewItemName, item);
 
     final String itemToRemoveId = this.getRef(position).getKey();
@@ -168,6 +170,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
    *   Returned:     N/A
    ************************************************************************************************/
   private void setViewOnItemBought(String owner, final TextView textViewBoughtByUser,
+                                                  CheckBox cbBoughtItem,
                                                    TextView textViewBoughtBy, ImageButton buttonRemoveItem,
                                                    TextView textViewItemName, SimpleListItem item) {
     /**
@@ -176,8 +179,9 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
      * Set "Bought by" text to userName if current user is NOT owner of the list
      * Set the remove item button invisible if current user is NOT list or item owner
      */
-    if (item.isbBought() && item.getmBoughtBy() != null) {
-
+    if (item.isbBought() && item.getmBoughtBy() != null)
+    {
+      cbBoughtItem.setChecked(true);
       textViewBoughtBy.setVisibility(View.VISIBLE);
       textViewBoughtByUser.setVisibility(View.VISIBLE);
       buttonRemoveItem.setVisibility(View.INVISIBLE);
@@ -218,6 +222,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
        */
 
             /* Remove the strike-through */
+      cbBoughtItem.setChecked(false);
       textViewItemName.setPaintFlags(textViewItemName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
 
       textViewBoughtBy.setVisibility(View.INVISIBLE);
