@@ -141,9 +141,6 @@ public abstract class PoPListActivity extends BaseActivity implements View.OnCli
     mLastTabIndex = -1;
     mbAddingItem = false;
 
-    //setupEditDeleteButtonsForGLists();
-
-    //setupBackButton (isGrocery);
 
     setupToolbar();
 
@@ -338,7 +335,7 @@ public abstract class PoPListActivity extends BaseActivity implements View.OnCli
    * Parameters:   N/A
    * Returned:     N/A
    ************************************************************************************************/
-  public void onFBListClick(String listId)
+  public void onFBListClick(String listId, String listName)
   {
     Intent intent;
 
@@ -350,6 +347,7 @@ public abstract class PoPListActivity extends BaseActivity implements View.OnCli
     }
 
     intent.putExtra(Constants.KEY_LIST_ID, listId);
+    intent.putExtra("PoPListName", listName);
 
     startActivity(intent);
   }
@@ -479,6 +477,7 @@ public abstract class PoPListActivity extends BaseActivity implements View.OnCli
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //pass list name to onListClick
             onListClick((String) ((PoPListAdapter.ListHolder) view.getTag()).listName.getTag());
+
         }
     });
   }
@@ -505,7 +504,8 @@ public abstract class PoPListActivity extends BaseActivity implements View.OnCli
             SimpleList selectedList = mSimpleListAdapter.getItem(position);
             if (null != selectedList) {
                 String listId = mSimpleListAdapter.getRef(position).getKey();
-                onFBListClick(listId);
+
+                onFBListClick(listId, selectedList.getmListName());
             }
         }
     });

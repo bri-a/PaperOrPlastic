@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -145,8 +146,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
 
       readListsFromFile(popLists);
       mPoPList = popLists.getListByName(mPoPListName);
-      //setTitle(mPoPListName);
-      setTitle("");
+      setTitle(mPoPListName);
+      //setTitle("");
       mTBarTitle.setText(mPoPListName);
       setUpListView();
     }
@@ -163,6 +164,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
 
         readListsFromFile(popLists);
         mPoPList = popLists.getListByName(mPoPListName);
+
       }
     }
 
@@ -300,8 +302,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
         final SimpleListItem selectedListItem = mSimpleListItemAdapter.getItem(position);
         String itemId = mSimpleListItemAdapter.getRef(position).getKey();
 
-        int itemIndex = mPoPList.getItemIndex(selectedListItem.getmItemName());
-        mPoPList.getItem(itemIndex);
+        //int itemIndex = mPoPList.getItemIndex(selectedListItem.getmItemName());
+        //mPoPList.getItem(itemIndex);
 
         return false;
       }
@@ -312,8 +314,10 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id)
       {
+        //CheckBox checkBox = (CheckBox) view.findViewById(R.id.cbBought);
         final SimpleListItem selectedListItem = mSimpleListItemAdapter.getItem(position);
         String itemId = mSimpleListItemAdapter.getRef(position).getKey();
+
         buyItemOnClick (selectedListItem, itemId);
       }
     });
@@ -342,9 +346,7 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
   {
     if (selectedListItem != null)
     {
-                        /* If current user is shopping */
-
-                            /* Create map and fill it in with deep path multi write operations list */
+       /* Create map and fill it in with deep path multi write operations list */
       HashMap<String, Object> updatedItemBoughtData = new HashMap<String, Object>();
 
                             /* Buy selected item if it is NOT already bought */
@@ -398,7 +400,6 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
         });
       }
     }
-
   }
 
   /*************************************************************************************************
@@ -453,6 +454,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
         String item_name = data.getStringExtra("item_name");
         String brand_name = data.getStringExtra("brand_name");
         String desc = data.getStringExtra("item_desc");
+        mPoPListName = data.getStringExtra("PoPListName");
+        Log.v("Items activity", data.getStringExtra("PoPListName"));
 
         newItem = new ListItem(item_name, brand_name, desc);
 
@@ -500,10 +503,13 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
           addItemToFB(item_name);
 
           //testing!!!
-          mPoPLists.clearLists();
-          readListsFromFile(mPoPLists);
-          mPoPList.addItem(newItem);
-          writeListsToFile();
+//          mPoPLists.clearLists();
+//          readListsFromFile(mPoPLists);
+//
+//          mPoPList = mPoPLists.getListByName(mPoPListName);
+//          Log.v("Items activity", mPoPListName + mPoPList.getListName());
+//          mPoPList.addItem(newItem);
+//          writeListsToFile();
           //end testing area!
         }
         else
@@ -513,8 +519,6 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
           addItemToListView(newItem);
           writeListsToFile();
         }
-
-
 
         mbAddingItem = true;
       }
@@ -699,6 +703,13 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
    ************************************************************************************************/
   public void onClick (View view)
   {
+    if (!bUsingOffline)
+    {
+      if (view == view.findViewById(R.id.cbBought))
+      {
+
+      }
+    }
   }
 
   /*************************************************************************************************
@@ -757,6 +768,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     } else {
       addItemIntent.putExtra("Caller", "KitchenInventoryActivity");
     }
+
+    addItemIntent.putExtra ("PoPListName", mPoPListName);
     startActivityForResult(addItemIntent, REQUEST_OK);
   }
 
@@ -844,7 +857,15 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     }
   }
 
-
+  /********************************************************************************************
+   * Function name:
+   *
+   * Description:
+   *
+   * Parameters:
+   *
+   * Returns:
+   ******************************************************************************************/
   private boolean showDeleteButton2(final int pos) {
     mPositionClicked = pos;
     ImageButton bDelete;
@@ -873,6 +894,15 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
     return false;
   }
 
+  /********************************************************************************************
+   * Function name:
+   *
+   * Description:
+   *
+   * Parameters:
+   *
+   * Returns:
+   ******************************************************************************************/
   private boolean hideDeleteButton2(final int pos) {
     mPositionClicked = pos;
     View child = mItemListView.getChildAt(pos - mItemListView.getFirstVisiblePosition());
@@ -1350,7 +1380,8 @@ public abstract class PoPListItemsActivity extends BaseActivity implements View.
 
     final String listId = mListRef.getKey(); //the current list we are trying to share
 
-    final Firebase shareRef = new Firebase(Constants.FIREBASE_URL_SHARED_WITH).child(listId).child(sharedEncodedEmail);
+    final Firebase shareRef = new Firebase(Constants.FIREBASE_URL_SHARED_WITH).child(listId)
+        .child(sharedEncodedEmail);
     Firebase userRef = new Firebase(Constants.FIREBASE_URL_USERS).child(sharedEncodedEmail);
     //location of the shared used (assuming they already have an account)
     userRef.addListenerForSingleValueEvent(new ValueEventListener() {

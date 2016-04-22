@@ -9,7 +9,8 @@
                   android:layout_height="match_parent" android:id="@+id/loginForm"
                   android:gravity="center" android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-                  android:paddingRight="@dimen/activity_horizontal_margin" >
+                  android:paddingRight="@dimen/activity_horizontal_margin"
+                  android:weightSum="1">
 
 
         <ImageView
@@ -34,7 +35,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <EditText
                 android:layout_width="match_parent"
@@ -45,7 +47,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:padding="5dp" android:background="#99ffffff"
-                android:minHeight="45dp" android:textSize="15sp"/>
+                android:minHeight="45dp" android:textSize="15sp"
+                />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -70,7 +73,7 @@
             android:id="@+id/login_with_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_marginTop="5dp"
-            />
+            android:visibility="invisible"/>
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"

@@ -47,6 +47,7 @@ public class ItemSearchActivity extends Activity implements ExecuteQueryTask.Asy
     private ItemSearchAdapter mItemSearchAdapter;
     private ArrayList<ListItem> mSuggestions = new ArrayList<>();
     private JSONArray JSONResults;
+    private String mPoPListName;
 
     //For barcode Scanner
     private Button bScanButton;
@@ -97,6 +98,8 @@ public class ItemSearchActivity extends Activity implements ExecuteQueryTask.Asy
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
+
+        mPoPListName = getIntent().getStringExtra("PoPListName");
 
         bScanButton = (Button) findViewById (R.id.scan_button);
 
@@ -275,6 +278,7 @@ public class ItemSearchActivity extends Activity implements ExecuteQueryTask.Asy
         dataBack.putExtra("nf_vitamin_c_dv", itemNF.getVitC());
         dataBack.putExtra("nf_calcium_mg", itemNF.getCalcium());
         dataBack.putExtra("nf_iron_mg", itemNF.getIron());
+        dataBack.putExtra("PoPListName", mPoPListName);
 
 
         setResult(RESULT_OK, dataBack);

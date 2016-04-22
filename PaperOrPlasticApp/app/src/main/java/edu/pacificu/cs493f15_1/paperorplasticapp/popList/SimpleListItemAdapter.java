@@ -79,10 +79,20 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
     setViewOnItemBought(owner, textViewBoughtByUser, boughtItem, textViewBoughtBy, deleteButton,
         textViewItemName, item);
 
-    final String itemToRemoveId = this.getRef(position).getKey();
+    final String itemID = this.getRef(position).getKey();
 
     //if we want to delete an item, how do we update the view todo
     //set a click listener for when the user clicks the X in the PoPListActivity?
+
+    boughtItem.setOnClickListener(new View.OnClickListener()
+    {
+      @Override
+      public void onClick(View v)
+      {
+        PoPListItemsActivity test = (PoPListItemsActivity) mActivity;
+        test.buyItemOnClick(item, itemID);
+      }
+    });
 
     deleteButton.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -93,7 +103,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialog, int which) {
 
-                    removeItem(itemToRemoveId);
+                    removeItem(itemID);
                        /* Dismiss the dialog */
                     dialog.dismiss();
                   }
@@ -170,7 +180,7 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
    *   Returned:     N/A
    ************************************************************************************************/
   private void setViewOnItemBought(String owner, final TextView textViewBoughtByUser,
-                                                  CheckBox cbBoughtItem,
+                                                  final CheckBox cbBoughtItem,
                                                    TextView textViewBoughtBy, ImageButton buttonRemoveItem,
                                                    TextView textViewItemName, SimpleListItem item) {
     /**
@@ -194,7 +204,6 @@ public class SimpleListItemAdapter extends FirebaseListAdapter<SimpleListItem>
       }
       else
       {
-
         Firebase boughtByUserRef = new Firebase(Constants.FIREBASE_URL_USERS).child(item.getmBoughtBy());
                 /* Get the item's owner's name; use a SingleValueEvent listener for memory efficiency */
         boughtByUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
